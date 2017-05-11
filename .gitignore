@@ -7,4 +7,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+<<<<<<< HEAD
 .settings/
+=======
+>>>>>>> 921d36cb487ffb163b2b8895334805da00f280fe
