@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Grid Template for Bootstrap</title>
+
+<!-- Bootstrap core CSS -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+
+
+<!-- Custom styles for this template -->
+<link href="grid.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<div class="container" id="content">
+
+		<div class="page-header">
+			<h1>Monitoramento de Vagas do Estacionamento</h1>
+			<p class="lead">Estacionamento IoT</p>
+		</div>
+	</div>
+	<div id="itens">
+	
+	</div>
+	<!-- /container -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+
+	<script>
+		function atualizarVagas() {
+			var url = "http://"+location.host+"/parkingapp/services/vagas/listar";
+			$.getJSON(url, function( data ) {
+				  var items = [];
+				  $("#itens").empty();
+				  $.each( data, function( key, val ) {
+					if(key == 0){
+						items.push( "<div class='row' id='" + key + "'>");
+						
+					}
+					if(key % 3 == 0){
+						items.push( "</div>");
+						items.push( "<div class='row' id='" + key + "'>");
+						
+					}
+					items.push("<div class='col-md-4'>Vaga #"+val.numero+" - "+val.statusDesc+"</div> ");
+				  });
+				 
+				  if(items)
+					  items.push( "</div>");
+				  
+				  $("#itens").append( items.join( "" ) );
+			});
+		}
+		
+		setInterval(atualizarVagas,1000);
+		
+	</script>
+
+</body>
+</html>

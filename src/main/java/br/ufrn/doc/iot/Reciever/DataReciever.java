@@ -1,13 +1,16 @@
 package br.ufrn.doc.iot.Reciever;
 
+import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.time.Instant;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.websocket.Session;
+import javax.servlet.ServletContext;
 
 import com.google.gson.Gson;
 import com.microsoft.azure.eventhubs.EventData;
@@ -15,27 +18,34 @@ import com.microsoft.azure.eventhubs.EventHubClient;
 import com.microsoft.azure.eventhubs.PartitionReceiver;
 import com.microsoft.azure.servicebus.ConnectionStringBuilder;
 
-public class DataReciever implements Runnable{
+import br.ufrn.doc.iot.Reciever.handler.DataHandler;
+import br.ufrn.doc.iot.Reciever.handler.RFIDDataHandler;
 
-	//private static final String connectionString = "HostName=EstacionamentoIoT.azure-devices.net;DeviceId=myFirstJavaDevice;SharedAccessKey=Ph/nSASaqUOBjbWu5i0rjQ==";
-	private static final String connectionString = "HostName=EstacionamentoIoT.azure-devices.net;DeviceId=%s;SharedAccessKey=%s";
-	private static final String deviceId = "myFirstJavaDevice";
+public class DataReciever implements Runnable{
 	
-	protected String deviceId;
-	protected String deviceKey;
+	private ServletContext context;
+	private static Map<String,DataHandler> mapaHandler;
+	
+	static{
+		mapaHandler = new HashMap<String,DataHandler>();
+		mapaHandler.put("ANTENA_RFID_ENTRADA" , new RFIDDataHandler());
+	}
+	
+	public DataReciever(ServletContext context) {
+		this.context = context;
+	}
 	
 	@Override
 	public void run() {
 		try{
-			final String namespaceName = "ihsuprodbyres021dednamespace";
-			final String eventHubName = "iothub-ehub-estacionam-147236-3497bd514c";
+			final String namespaceName = "ihsuprodbyres006dednamespace";
+			final String eventHubName = "iothub-ehub-ioteamhub-160683-17602d125e";
 			final String sasKeyName = "iothubowner";
-			final String sasKey = "w+tIMayUXe1x2tsSv5OOtnEf/Wt/ZvLb0tjGPDtiDzU=";
+			final String sasKey = "bla0Kcuo5pj4SqV01sORWGdkkBEEPF41v2CnOw+Y47g=";
 			ConnectionStringBuilder connStr = new ConnectionStringBuilder(namespaceName, eventHubName, sasKeyName, sasKey);
 			
-			System.out.println(connStr.toString());
 			
-			EventHubClient ehClient = EventHubClient.createFromConnectionStringSync(String.format(connStr.toString());
+			EventHubClient ehClient = EventHubClient.createFromConnectionStringSync(String.format(connStr.toString()));
 			
 			
 			String partitionId = "0";
@@ -44,13 +54,6 @@ public class DataReciever implements Runnable{
 			atual.set(Calendar.MILLISECOND, -10000);
 			
 			CompletableFuture<PartitionReceiver> receiver = ehClient.createReceiver("monitor" ,partitionId ,  atual.toInstant());
-//			PartitionReceiver receiver = ehClient.createReceiverSync(
-//					"monitor", 
-//					partitionId, 
-//					PartitionReceiver.START_OF_STREAM,
-//					false);
-
-			//receiver.setReceiveTimeout(Duration.ofSeconds(20));
 			
 			Gson gson = new Gson();
 			
@@ -68,15 +71,20 @@ public class DataReciever implements Runnable{
 						mensagem.setData(receivedEvent.getSystemProperties().getEnqueuedTime());
 						mensagem.setTexto(new String(receivedEvent.getBytes(), Charset.defaultCharset()));
 						
+						JsonObject dados = Json.createReader(new ByteArrayInputStream(receivedEvent.getBytes())).readObject();
 						JsonObject event = Json.createObjectBuilder().
 		                        add("sequencia",receivedEvent.getSystemProperties().getSequenceNumber()).
 		                        add("data", receivedEvent.getSystemProperties().getEnqueuedTime().toString()).
-		                        add("texto",new String(receivedEvent.getBytes(), Charset.defaultCharset()))
+		                        add("texto",new String(receivedEvent.getBytes(), Charset.defaultCharset())).
+		                        add("dados",dados)
 		                        .build();
 						
+						DataHandler handler = mapaHandler.get(dados.getString("sensor"));
+						
+						if(handler != null)
+							handler.handleData(context, event);
+						
 						String saida = gson.toJson(mensagem);
-						//sessao.getBasicRemote().sendText(saida);
-						//sessao.getBasicRemote().sendObject(event);
 						
 						System.out.println(String.format("Message: %s", new String(receivedEvent.getBytes(), Charset.defaultCharset())));
 						System.out.println(String.format("Offset: %s, SeqNo: %s, EnqueueTime: %s", 
