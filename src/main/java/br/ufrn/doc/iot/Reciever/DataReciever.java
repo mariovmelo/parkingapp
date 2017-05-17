@@ -44,9 +44,8 @@ public class DataReciever implements Runnable{
 			final String sasKey = "bla0Kcuo5pj4SqV01sORWGdkkBEEPF41v2CnOw+Y47g=";
 			ConnectionStringBuilder connStr = new ConnectionStringBuilder(namespaceName, eventHubName, sasKeyName, sasKey);
 			
-			
+			System.out.println(connStr.toString());
 			EventHubClient ehClient = EventHubClient.createFromConnectionStringSync(String.format(connStr.toString()));
-			
 			
 			String partitionId = "0";
 			

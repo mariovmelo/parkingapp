@@ -6,6 +6,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import br.ufrn.doc.iot.Reciever.DataReciever;
+import br.ufrn.doc.iot.Reciever.DataSender;
 import br.ufrn.doc.iot.dominio.Estacionamento;
 
 @WebListener
@@ -20,6 +21,10 @@ public class AppServletContextListener implements ServletContextListener {
 		
 		new Thread(new DataReciever(ctx)).start();
 		
+		DataSender dataSender = new DataSender();
+		new Thread(dataSender).start();
+		
+		ctx.setAttribute("dataSender", dataSender);
 	}
 
 	@Override

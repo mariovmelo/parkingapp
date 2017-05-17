@@ -17,6 +17,30 @@ h4 {
   border: 1px solid rgba(86,61,124,.2);
 }
 
+.reservada {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #efe40e;
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+.ocupada {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #db060d;
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+.livre {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #2be262;
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
 hr {
   margin-top: 40px;
   margin-bottom: 40px;

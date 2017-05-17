@@ -1,6 +1,8 @@
 package br.ufrn.doc.iot.dominio;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Estacionamento {
 	
@@ -14,6 +16,13 @@ public class Estacionamento {
 		for (int i = 1; i <= numeroDeVagas; i++) {
 			vagasEstacionamento.add(new Vaga(i));
 		}
+		
+		Collections.sort(getVagasEstacionamento(), new Comparator<Vaga>() {
+			@Override
+			public int compare(Vaga v1, Vaga v2) {
+				return new Integer(v1.getNumero()).compareTo(new Integer(v2.getNumero()));
+			}
+		});
 	}
 
 	public int getNumeroDeVagas() {

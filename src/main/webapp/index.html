@@ -54,15 +54,15 @@
 				  $("#itens").empty();
 				  $.each( data, function( key, val ) {
 					if(key == 0){
-						items.push( "<div class='row' id='" + key + "'>");
+						items.push( "<div class='row' id=r_'" + key + "' >");
 						
 					}
 					if(key % 3 == 0){
 						items.push( "</div>");
-						items.push( "<div class='row' id='" + key + "'>");
+						items.push( "<div class='row' id=r_'" + key + "'>");
 						
 					}
-					items.push("<div class='col-md-4'>Vaga #"+val.numero+" - "+val.statusDesc+"</div> ");
+					items.push("<div class='col-md-4 "+val.statusDesc+"' id=c_'" + key + "'>Vaga #"+val.numero+" - "+val.statusDesc+"</div> ");
 				  });
 				 
 				  if(items)
