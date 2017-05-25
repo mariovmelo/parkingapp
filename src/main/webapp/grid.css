@@ -17,7 +17,7 @@ h4 {
   border: 1px solid rgba(86,61,124,.2);
 }
 
-.reservada {
+.col-md-4.reservada {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: #efe40e;
@@ -25,7 +25,7 @@ h4 {
   border: 1px solid rgba(86,61,124,.2);
 }
 
-.ocupada {
+.col-md-4.ocupada {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: #db060d;
@@ -33,7 +33,7 @@ h4 {
   border: 1px solid rgba(86,61,124,.2);
 }
 
-.livre {
+.col-md-4.Livre {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: #2be262;

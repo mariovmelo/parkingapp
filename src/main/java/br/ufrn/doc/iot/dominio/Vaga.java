@@ -12,6 +12,8 @@ public class Vaga {
 	
 	private int numero;
 	
+	private String tokenMobile;
+	
 	public Vaga(int numero){
 		this.numero = numero;
 	}
@@ -52,6 +54,14 @@ public class Vaga {
 	
 	public boolean isDisponivel(){
 		return status == LIVRE;
+	}
+
+	public String getTokenMobile() {
+		return tokenMobile;
+	}
+
+	public void setTokenMobile(String tokenMobile) {
+		this.tokenMobile = tokenMobile;
 	}
 	
 }

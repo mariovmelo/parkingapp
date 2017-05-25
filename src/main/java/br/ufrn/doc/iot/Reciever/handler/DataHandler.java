@@ -5,6 +5,6 @@ import javax.servlet.ServletContext;
 
 public interface DataHandler {
 	
-	public void handleData(ServletContext context, JsonObject mensagem);
+	public void handleData(ServletContext context, JsonObject mensagem) throws Exception;
 
 }

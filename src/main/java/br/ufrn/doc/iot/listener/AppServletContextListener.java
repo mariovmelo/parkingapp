@@ -1,5 +1,8 @@
 package br.ufrn.doc.iot.listener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -25,6 +28,10 @@ public class AppServletContextListener implements ServletContextListener {
 		new Thread(dataSender).start();
 		
 		ctx.setAttribute("dataSender", dataSender);
+		
+		Map<String, String> mapaTags = new HashMap<String,String>();
+		ctx.setAttribute("dadosUsuario", mapaTags);
+		
 	}
 
 	@Override

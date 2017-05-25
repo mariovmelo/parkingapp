@@ -36,6 +36,11 @@
 	<div id="itens">
 	
 	</div>
+	<br/>
+	<h2>Clientes</h2>
+	<div id="clientes">
+	
+	</div>
 	<!-- /container -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script
@@ -62,7 +67,10 @@
 						items.push( "<div class='row' id=r_'" + key + "'>");
 						
 					}
-					items.push("<div class='col-md-4 "+val.statusDesc+"' id=c_'" + key + "'>Vaga #"+val.numero+" - "+val.statusDesc+"</div> ");
+					items.push("<div class='col-md-4 "+val.statusDesc+"' id=c_'" + key + "'>Vaga #"+val.numero+" - "+val.statusDesc+" ");
+					if(val.ocupadoPor != undefined)
+						items.push("<br/>Ocupada por: "+val.ocupadoPor);
+					items.push("</div> ");
 				  });
 				 
 				  if(items)
@@ -72,8 +80,26 @@
 			});
 		}
 		
-		setInterval(atualizarVagas,1000);
+		function atualizarClientes() {
+			var url = "http://"+location.host+"/parkingapp/services/vagas/listarAssociacoes";
+			$.getJSON(url, function( data ) {
+				  var items = [];
+				  $("#clientes").empty();
+				  $.each( data, function( key, val ) {
+					items.push("<p> "+key+" - "+val+"</p>");
+					});
+				  
+				  $("#clientes").append( items.join( "" ) );
+			});
+		}
 		
+		atualizarVagas();
+		atualizarClientes();
+		
+		//setInterval(atualizarVagas,3000);
+		//setInterval(atualizarClientes,3000);
+		
+		setTimeout(function(){window.location.reload(1);}, 30000);
 	</script>
 
 </body>

@@ -19,6 +19,7 @@ import com.microsoft.azure.eventhubs.PartitionReceiver;
 import com.microsoft.azure.servicebus.ConnectionStringBuilder;
 
 import br.ufrn.doc.iot.Reciever.handler.DataHandler;
+import br.ufrn.doc.iot.Reciever.handler.PresenceDataHandler;
 import br.ufrn.doc.iot.Reciever.handler.RFIDDataHandler;
 
 public class DataReciever implements Runnable{
@@ -29,6 +30,7 @@ public class DataReciever implements Runnable{
 	static{
 		mapaHandler = new HashMap<String,DataHandler>();
 		mapaHandler.put("ANTENA_RFID_ENTRADA" , new RFIDDataHandler());
+		mapaHandler.put("PRESENCE_VAGA" , new PresenceDataHandler());
 	}
 	
 	public DataReciever(ServletContext context) {

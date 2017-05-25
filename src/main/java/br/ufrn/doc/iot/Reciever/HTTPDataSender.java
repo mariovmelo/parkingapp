@@ -18,7 +18,7 @@ public class HTTPDataSender {
 		con.setDoOutput(true);
 
 		// HTTP request header
-		con.setRequestProperty("project_id", senderId);
+		con.setRequestProperty("project_id", "appparking-e138f");
 		con.setRequestProperty("Content-Type", "application/json");
 		con.setRequestProperty("Accept", "application/json");
 		con.setRequestMethod("POST");
@@ -27,9 +27,9 @@ public class HTTPDataSender {
 		// HTTP request
 		JSONObject data = new JSONObject();
 		data.put("operation", "add");
-		data.put("notification_key_name", userEmail);
-		data.put("registration_ids", new JSONArray(Arrays.asList(registrationId)));
-		data.put("id_token", idToken);
+		data.put("notification_key_name", "tag-123");
+		data.put("registration_ids", new JSONArray(Arrays.asList("")));
+		//data.put("id_token", idToken);
 
 		OutputStream os = con.getOutputStream();
 		os.write(data.toString().getBytes("UTF-8"));
@@ -42,6 +42,6 @@ public class HTTPDataSender {
 
 		// Parse the JSON string and return the notification key
 		JSONObject response = new JSONObject(responseString);
-		return response.getString("notification_key");
+		response.getString("notification_key");
 	}
 }
