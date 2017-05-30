@@ -19,7 +19,7 @@ public class AppServletContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext ctx = sce.getServletContext();
 		
-		Estacionamento estacionamento = new Estacionamento(12);
+		Estacionamento estacionamento = new Estacionamento(3);
 		ctx.setAttribute("estacionamento", estacionamento);
 		
 		new Thread(new DataReciever(ctx)).start();
@@ -30,7 +30,7 @@ public class AppServletContextListener implements ServletContextListener {
 		ctx.setAttribute("dataSender", dataSender);
 		
 		Map<String, String> mapaTags = new HashMap<String,String>();
-		ctx.setAttribute("dadosUsuario", mapaTags);
+		ctx.setAttribute("dadosUsuarios", mapaTags);
 		
 	}
 

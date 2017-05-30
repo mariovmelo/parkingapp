@@ -19,10 +19,14 @@ public class PresenceDataHandler implements DataHandler{
 		Estacionamento estacionamento = (Estacionamento) context.getAttribute("estacionamento");
 		Vaga vaga = null;
 		
-		if(mensagem.getJsonObject("dados").getInt("status") == Vaga.OCUPADA )
+		int numeroVaga = mensagem.getJsonObject("dados").getInt("numeroVaga");
+		
+		if(estacionamento.getVaga(numeroVaga).isReservado() 
+				&& mensagem.getJsonObject("dados").getInt("status") == Vaga.OCUPADA )
 			vaga = estacionamento.ocuparVaga(mensagem.getJsonObject("dados").getInt("numeroVaga"));
-		else
+		else if (!estacionamento.getVaga(numeroVaga).isReservado()){
 			vaga = estacionamento.desalocarVaga(mensagem.getJsonObject("dados").getInt("numeroVaga"));
+		}
 		
 		context.setAttribute("estacionamento", estacionamento);
 		

@@ -56,7 +56,7 @@ public class VagasService {
 		
 		mapaTags.put(tagRFID, tokenFCM);
 	
-		context.setAttribute("dadosUsuario", mapaTags);
+		context.setAttribute("dadosUsuarios", mapaTags);
 		
 		return Response.ok().build();
 	}
@@ -86,6 +86,25 @@ public class VagasService {
 	@Path("/listarAssociacoes")
 	@Produces("application/json")
 	public Map<String, String> listaClientes(){
-		return (Map<String, String>) context.getAttribute("dadosUsuario");
+		return (Map<String, String>) context.getAttribute("dadosUsuarios");
 	}
+	
+	@GET
+	@Path("/liberarVagas")
+	@Produces("application/json")
+	public Response liberar(){
+		Estacionamento estacionamento = (Estacionamento) context.getAttribute("estacionamento");
+		List<Vaga> vagas = estacionamento.getVagasEstacionamento();
+		
+		if(vagas != null){
+			for(Vaga vaga : vagas){
+				estacionamento.desalocarVaga(vaga.getNumero());
+			}
+		}
+		
+		context.setAttribute("estacionamento", estacionamento);
+		
+		return Response.ok().build();
+	}
+	
 }

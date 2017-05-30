@@ -32,6 +32,15 @@ public class Estacionamento {
 		return numeroDeVagas;
 	}
 
+	public Vaga getVaga(int numeroVaga) {
+		for (Vaga v : vagasEstacionamento) {
+			if (v.getNumero() == numeroVaga) {
+				return v;
+			}
+		}
+		return null;
+	}
+
 	public Vaga alocarVaga(String idMotorista,String token) throws Exception {
 		try{
 			for (Vaga v : vagasEstacionamento) {

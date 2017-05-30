@@ -55,7 +55,11 @@ public class Vaga {
 	public boolean isDisponivel(){
 		return status == LIVRE;
 	}
-
+	
+	public boolean isReservado(){
+		return status == RESERVADA;
+	}
+	
 	public String getTokenMobile() {
 		return tokenMobile;
 	}
